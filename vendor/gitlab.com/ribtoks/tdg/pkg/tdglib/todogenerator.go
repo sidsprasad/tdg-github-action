@@ -256,9 +256,10 @@ func (td *ToDoGenerator) getBlameDetails(commentHash, filePath string, line int)
 	defer td.commentsWG.Done()
 
 	absPath := filepath.Join(td.root, filePath)
+	gitPath := filepath.Join(td.root, ".git")
 	command := "git"
 	lineNumber := strconv.Itoa(line)
-	args := []string{"blame", "-L", lineNumber + "," + lineNumber, "--porcelain", "--", absPath}
+	args := []string{"--git-dir=" + gitPath, "--work-tree=" + td.root, "blame", "-L", lineNumber + "," + lineNumber, "--porcelain", "--", absPath}
 	cmd := exec.Command(command, args...)
 	out, err := cmd.Output()
 
