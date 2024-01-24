@@ -271,7 +271,7 @@ func (td *ToDoGenerator) getBlameDetails(commentHash, filePath string, line int)
 		return
 	}
 
-	log.Printf("File=%v Line=%v\nBlame Output: %v\n", filePath, line, out)
+	log.Printf("File=%v Line=%v\nBlame Output: %v\n", filePath, line, string(out))
 
 	committerEmail := ""
 	commitHash := ""
