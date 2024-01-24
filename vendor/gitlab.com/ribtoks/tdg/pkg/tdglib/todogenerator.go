@@ -259,6 +259,17 @@ func (td *ToDoGenerator) getBlameDetails(commentHash, filePath string, line int)
 	gitPath := filepath.Join(td.root, ".git")
 	command := "git"
 	lineNumber := strconv.Itoa(line)
+
+	log.Printf("Getting Log Output for %v", absPath)
+	argsL := []string{"log", "-L", lineNumber + "," + lineNumber, absPath}
+	cmdL := exec.Command(command, argsL...)
+	outL, errL := cmdL.Output()
+	if errL != nil {
+		log.Printf("Error getting log output for %v", absPath)
+	}
+
+	log.Printf("Log Output:\n%v", string(outL))
+
 	args := []string{"--git-dir=" + gitPath, "--work-tree=" + td.root, "blame", "-L", lineNumber + "," + lineNumber, "--porcelain", "--", absPath}
 	cmd := exec.Command(command, args...)
 	out, err := cmd.Output()
